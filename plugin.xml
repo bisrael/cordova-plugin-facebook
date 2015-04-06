@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="com.blakeisrael.cordova.facebook" version="0.0.1">
+    <name>CordovaFacebook</name>
+    <description>Cordova Facebook SDK Plugin</description>
+    <author>Blake Israel</author>
+    <license>Apache 2.0</license>
+    <keywords>cordova,facebook</keywords>
+
+    <js-module src="www/CordovaFacebook.js" name="CordovaFacebook">
+        <clobbers target="CordovaFacebook" />
+    </js-module>
+
+    <preference name="FACEBOOK_APP_ID" />
+    <preference name="FACEBOOK_DISPLAY_NAME" />
+
+    <!-- ios -->
+    <platform name="ios">
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="CordovaFacebook">
+                <param name="ios-package" value="CDVFacebook"/>
+                <param name="onload" value="true"/>
+            </feature>
+        </config-file>
+        <!-- Facebook PLIST Entries -->
+        <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+            <array>
+                <dict>
+                    <key>CFBundleURLSchemes</key>
+                    <array>
+                        <string>fb$FACEBOOK_APP_ID</string>
+                    </array>
+                </dict>
+            </array>
+        </config-file>
+
+        <config-file target="*-Info.plist" parent="FacebookAppId">
+            <string>$FACEBOOK_APP_ID</string>
+        </config-file>
+
+        <config-file target="*-Info.plist" parent="FacebookDisplayName">
+            <string>$FACEBOOK_DISPLAY_NAME</string>
+        </config-file>
+
+        <!-- Facebook Framework Files -->
+        <framework src="src/ios/FBSDKCoreKit.framework" custom="true" />
+
+        <!-- Our Source Files -->
+        <header-file src="src/ios/CordovaFacebook.h" />
+        <source-file src="src/ios/CordovaFacebook.m" />
+    </platform>
+</plugin>
