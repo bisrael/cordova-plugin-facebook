@@ -4,16 +4,19 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaWebView;
 
+import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
 public class CordovaFacebook extends CordovaPlugin {
     private String appId;
 
     @Override
-    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-        super.initialize(cordova, webView);
+    protected void pluginInitialize() {
+        super.pluginInitialize();
 
-        this.appId = preferences.getString("FacebookAppId", null);
+        FacebookSdk.sdkInitialize(this.cordova.getActivity());
+
+        this.appId = this.preferences.getString("FacebookAppId", null);
     }
 
     @Override
