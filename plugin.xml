@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="com.blakeisrael.cordova.facebook" version="0.0.1">
+        id="com.blakeisrael.cordova.CordovaFacebook" version="0.0.1">
     <name>CordovaFacebook</name>
     <description>Cordova Facebook SDK Plugin</description>
     <author>Blake Israel</author>
@@ -49,5 +49,31 @@
         <!-- Our Source Files -->
         <header-file src="src/ios/CordovaFacebook.h" />
         <source-file src="src/ios/CordovaFacebook.m" />
+    </platform>
+
+    <platform name="android">
+        <config-file target="config.xml" parent="/*">
+            <feature name="CordovaFacebook">
+                <param name="android-package" value="com.blakeisrael.cordova.CordovaFacebook"/>
+                <param name="onload" value="true"/>
+            </feature>
+            <access origin="https://m.facebook.com" />
+            <access origin="https://graph.facebook.com" />
+            <access origin="https://api.facebook.com" />
+            <access origin="https://*.fbcdn.net" />
+            <access origin="https://*.akamaihd.net" />
+        </config-file>
+
+        <config-file target="res/values/strings.xml" parent="/*">
+            <string name="facebook_app_id">$FACEBOOK_APP_ID</string>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="application">
+            <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        </config-file>
+
+        <source-file src="src/android/com/blakeisrael/cordova/CordovaFacebook.java" target-dir="src/com/blakeisrael/cordova/" />
+
+        <source-file src="src/android/facebook.jar" target-dir="libs/" />
     </platform>
 </plugin>
