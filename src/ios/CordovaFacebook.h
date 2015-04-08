@@ -9,7 +9,11 @@
 
 @property (nonatomic, copy) NSString *fbAppId;
 
++ (NSDictionary*) arrayAsDictionary:(NSArray*) array;
+
 - (void) setFacebookActive;
+- (void) event: (CDVInvokedUrlCommand*) command;
+- (void) purchase: (CDVInvokedUrlCommand*) command;
 - (void) onAppDidBecomeActive: (NSNotification*) notification;
 - (void) onAppDidFinishLaunching: (NSNotification*) notification;
 - (void) setFacebookApplication:(UIApplication*)application withLaunchOptions: (NSDictionary*)launchOptions;
