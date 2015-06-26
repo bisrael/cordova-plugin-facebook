@@ -1,4 +1,5 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <math.h>
 #import "CordovaFacebook.h"
 
@@ -16,6 +17,12 @@
     
     [defaultCenter addObserver:self selector:@selector(onAppDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [defaultCenter addObserver:self selector:@selector(onAppDidFinishLaunching:) name:UIApplicationDidFinishLaunchingNotification object:nil];
+    [defaultCenter addObserver:self selector:@selector(onHandleOpenURL:) name:CDVPluginHandleOpenURLNotification object:nil];
+
+    [FBSDKProfile enableUpdatesOnAccessTokenChange:YES];
+
+    self.fbLogin = [[FBSDKLoginManager alloc] init];
+    self.fbLogin.loginBehavior = FBSDKLoginBehaviorSystemAccount;
 }
 
 + (NSDictionary*) arrayAsDictionary:(NSArray*) array
@@ -162,11 +169,108 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void) login: (CDVInvokedUrlCommand*) command {
+    NSArray* args = command.arguments;
 
+    NSArray* permissions = nil;
+    NSMutableDictionary* cdvResult = [NSMutableDictionary dictionary];
+    NSNumber *yes = [NSNumber numberWithBool: YES];
+    NSNumber *no = [NSNumber numberWithBool: NO];
+    
+    if([args count] > 0) {
+        permissions = [args objectAtIndex: 0];
+    }
+    if (permissions == nil) {
+        permissions = @[];
+    };
+    [self.fbLogin logInWithReadPermissions:permissions handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+        CDVCommandStatus status;
+
+        if (error) {
+            // Process error
+            status = CDVCommandStatus_ERROR;
+            [cdvResult setObject:yes forKey:@"error"];
+            [cdvResult setObject:no forKey:@"success"];
+            [cdvResult setObject:no forKey:@"cancelled"];
+            [cdvResult setObject:[NSNumber numberWithInt:[error code]] forKey:@"errorCode"];
+        } else if (result.isCancelled) {
+            // Handle cancellations
+            status = CDVCommandStatus_ERROR;
+            [cdvResult setObject:yes forKey:@"error"];
+            [cdvResult setObject:no forKey:@"success"];
+            [cdvResult setObject:yes forKey:@"cancelled"];
+        } else {
+            status = CDVCommandStatus_OK;
+            [cdvResult setObject:no forKey:@"error"];
+            [cdvResult setObject:yes forKey:@"success"];
+            [cdvResult setObject:[result.grantedPermissions allObjects] forKey:@"granted"];
+            [cdvResult setObject:[result.declinedPermissions allObjects] forKey:@"declined"];
+        }
+
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:status messageAsDictionary:cdvResult] callbackId:command.callbackId];
+    }];
+}
+
+- (void) logout: (CDVInvokedUrlCommand*) command {
+    [self.fbLogin logOut];
+
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+}
+
+- (void) profile: (CDVInvokedUrlCommand*) command {
+    NSMutableDictionary *cdvResult = [NSMutableDictionary dictionary];
+
+    FBSDKProfile *profile = [FBSDKProfile currentProfile];
+
+    if(profile) {
+        NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
+        fmt.dateFormat = @"yyyy-MM-ddThh:mm:ssZ";
+
+        [cdvResult setObject:profile.firstName forKey:@"firstName"];
+        [cdvResult setObject:profile.middleName forKey:@"middleName"];
+        [cdvResult setObject:profile.lastName forKey:@"lastName"];
+        [cdvResult setObject:profile.name forKey:@"name"];
+        [cdvResult setObject:profile.userID forKey:@"userID"];
+        [cdvResult setObject:[fmt stringFromDate:profile.refreshDate] forKey:@"refreshDate"];
+        [cdvResult setObject:[profile.linkURL absoluteString] forKey:@"linkURL"];
+    }
+
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:cdvResult] callbackId:command.callbackId];
+}
+
+- (void) graphRequest: (CDVInvokedUrlCommand *) command {
+    CDVCommandStatus status;
+    NSArray* args = command.arguments;
+    NSString* path;
+    NSDictionary* params;
+
+    if([args count] > 0) {
+         path = [args objectAtIndex: 0];
+    } else {
+        status = CDVCommandStatus_ERROR;
+        return [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:status messageAsString:@"Cannot make Graph Request without a Path"] callbackId:command.callbackId];
+    }
+
+    if([args count] > 1) {
+        params = [args objectAtIndex: 1];
+    }
+
+    FBSDKGraphRequest *req = [[FBSDKGraphRequest alloc] initWithGraphPath:path parameters:nil];
+
+    [req startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+        NSDictionary *cdvResult;
+        if (!error) {
+            [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result] callbackId:command.callbackId];
+        } else {
+            [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]] callbackId:command.callbackId];
+        }
+
+    }];
+}
 
 - (void) onAppDidFinishLaunching: (NSNotification*) notification
 {
-    UIApplication* app = (UIApplication*)[notification object];
+    self.app = (UIApplication*)[notification object];
     NSDictionary* userInfo = [notification userInfo];
     if(userInfo != nil) {
         // The app was launched via a URL or shared app resource.
@@ -174,18 +278,25 @@
         NSString* fromApp = [userInfo objectForKey: UIApplicationLaunchOptionsSourceApplicationKey];
         id annotation = [userInfo objectForKey: UIApplicationLaunchOptionsAnnotationKey];
         
-        [self setFacebookApplication:app
+        [self setFacebookApplication:self.app
                              withURL:url
                    sourceApplication:fromApp
                           annotation:annotation];
     } else {
-        [self setFacebookApplication:app withLaunchOptions:userInfo];
+        [self setFacebookApplication:self.app withLaunchOptions:userInfo];
     }
 }
 
 - (void) onAppDidBecomeActive: (NSNotification*) notification
 {
     [self setFacebookActive];
+}
+
+- (void) onHandleOpenURL: (NSNotification*) notification
+{
+    NSURL* url = (NSURL*)[notification object];
+
+    [self setFacebookApplication:self.app withURL:url sourceApplication:@"com.apple.mobilesafari" annotation:nil];
 }
 
 - (void) setFacebookApplication:(UIApplication*)application withLaunchOptions: (NSDictionary*)launchOptions
