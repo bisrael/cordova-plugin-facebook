@@ -45,6 +45,7 @@
 
         <!-- Facebook Framework Files -->
         <framework src="src/ios/FBSDKCoreKit.framework" custom="true" />
+        <framework src="src/ios/FBSDKLoginKit.framework" custom="true" />
 
         <!-- Our Source Files -->
         <header-file src="src/ios/CordovaFacebook.h" />

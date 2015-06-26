@@ -2,6 +2,10 @@ var CordovaFacebook = (function() {
     var SERVICE = "CordovaFacebook";
     var EVENT = "event";
     var PURCHASE = "purchase";
+    var LOGIN = "login";
+    var LOGOUT = "logout";
+    var PROFILE = "profile";
+    var GRAPH_REQUEST = "graphRequest";
 
     var eventsSent = 0;
 
@@ -41,6 +45,32 @@ var CordovaFacebook = (function() {
 
         exec(onSuccess, onFailure, SERVICE, PURCHASE, [('' + options.amount), (options.currency || "USD"), convertProperties(options.properties)]);
     };
+
+    exports.login = function(options) {
+        var onSuccess = options.onSuccess || defaultCallback;
+        var onFailure = options.onFailure || defaultCallback;
+
+        exec(onSuccess, onFailure, SERVICE, LOGIN, [options.permissions]);
+    };
+
+    exports.graphRequest = function(options) {
+        var onSuccess = options.onSuccess || defaultCallback;
+        var onFailure = options.onFailure || defaultCallback;
+
+        exec(onSuccess, onFailure, SERVICE, GRAPH_REQUEST, [options.path, options.params]);
+    };
+
+    function basicCall(action) {
+        return function(options) {
+            var onSuccess = options.onSuccess || defaultCallback;
+            var onFailure = options.onFailure || defaultCallback;
+
+            exec(onSuccess, onFailure, SERVICE, action);
+        };
+    }
+
+    exports.logout = basicCall(LOGOUT);
+    exports.profile = basicCall(PROFILE);
 
     return exports;
 })();
