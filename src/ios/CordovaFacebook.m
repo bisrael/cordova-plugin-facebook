@@ -37,7 +37,7 @@
 
     NSDictionary* anObject;
 
-    for (int i = 0, l = [array count]; i < l; ++i) {
+    for (NSUInteger i = 0, l = [array count]; i < l; ++i) {
         anObject = [array objectAtIndex: i];
         if(anObject != nil) {
             NSString *key = [anObject objectForKey: @"key"];
@@ -193,7 +193,7 @@
             [cdvResult setObject:yes forKey:@"error"];
             [cdvResult setObject:no forKey:@"success"];
             [cdvResult setObject:no forKey:@"cancelled"];
-            [cdvResult setObject:[NSNumber numberWithInt:[error code]] forKey:@"errorCode"];
+            [cdvResult setObject:[NSNumber numberWithLong:[error code]] forKey:@"errorCode"];
             [cdvResult setObject:[error localizedDescription] forKey:@"errorLocalized"];
         } else if (result.isCancelled) {
             // Handle cancellations
@@ -266,13 +266,11 @@
     FBSDKGraphRequest *req = [[FBSDKGraphRequest alloc] initWithGraphPath:path parameters:nil];
 
     [req startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-        NSDictionary *cdvResult;
         if (!error) {
             [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result] callbackId:command.callbackId];
         } else {
             [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]] callbackId:command.callbackId];
         }
-
     }];
 }
 
