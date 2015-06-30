@@ -173,7 +173,7 @@
     NSArray* args = command.arguments;
 
     NSArray* permissions = nil;
-    NSMutableDictionary* cdvResult = [NSMutableDictionary dictionary];
+    NSMutableDictionary* cdvResult = [NSMutableDictionary dictionaryWithCapacity:10];
     NSNumber *yes = [NSNumber numberWithBool: YES];
     NSNumber *no = [NSNumber numberWithBool: NO];
     
@@ -185,6 +185,7 @@
     };
     [self.fbLogin logInWithReadPermissions:permissions handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
         CDVCommandStatus status;
+        FBSDKAccessToken* accessToken = [FBSDKAccessToken currentAccessToken];
 
         if (error) {
             // Process error
@@ -193,6 +194,7 @@
             [cdvResult setObject:no forKey:@"success"];
             [cdvResult setObject:no forKey:@"cancelled"];
             [cdvResult setObject:[NSNumber numberWithInt:[error code]] forKey:@"errorCode"];
+            [cdvResult setObject:[error localizedDescription] forKey:@"errorLocalized"];
         } else if (result.isCancelled) {
             // Handle cancellations
             status = CDVCommandStatus_ERROR;
@@ -206,6 +208,12 @@
             [cdvResult setObject:[result.grantedPermissions allObjects] forKey:@"granted"];
             [cdvResult setObject:[result.declinedPermissions allObjects] forKey:@"declined"];
         }
+
+        if (accessToken) {
+            [cdvResult setObject:[accessToken tokenString] forKey:@"accessToken"];
+            [cdvResult setObject:[accessToken userID] forKey:@"userID"];
+        }
+
 
         [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:status messageAsDictionary:cdvResult] callbackId:command.callbackId];
     }];
