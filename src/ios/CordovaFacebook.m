@@ -193,6 +193,7 @@
             [cdvResult setObject:no forKey:@"success"];
             [cdvResult setObject:no forKey:@"cancelled"];
             [cdvResult setObject:[NSNumber numberWithInt:[error code]] forKey:@"errorCode"];
+            [cdvResult setObject:[error localizedDescription] forKey:@"errorLocalized"];
         } else if (result.isCancelled) {
             // Handle cancellations
             status = CDVCommandStatus_ERROR;
@@ -205,6 +206,8 @@
             [cdvResult setObject:yes forKey:@"success"];
             [cdvResult setObject:[result.grantedPermissions allObjects] forKey:@"granted"];
             [cdvResult setObject:[result.declinedPermissions allObjects] forKey:@"declined"];
+            [cdvResult setObject:[[FBSDKAccessToken currentAccessToken] tokenString] forKey:@"accessToken"];
+            [cdvResult setObject:[[FBSDKProfile currentProfile] userID] forKey:@"userID"];
         }
 
         [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:status messageAsDictionary:cdvResult] callbackId:command.callbackId];
