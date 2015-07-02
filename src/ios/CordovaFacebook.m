@@ -241,9 +241,12 @@
         [cdvResult setObject:profile.userID forKey:@"userID"];
         [cdvResult setObject:[fmt stringFromDate:profile.refreshDate] forKey:@"refreshDate"];
         [cdvResult setObject:[profile.linkURL absoluteString] forKey:@"linkURL"];
+
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:cdvResult] callbackId:command.callbackId];
+    } else {
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR] callbackId:command.callbackId];
     }
 
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:cdvResult] callbackId:command.callbackId];
 }
 
 - (void) graphRequest: (CDVInvokedUrlCommand *) command {
