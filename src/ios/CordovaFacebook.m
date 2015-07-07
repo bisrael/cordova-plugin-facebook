@@ -205,6 +205,7 @@
             status = CDVCommandStatus_OK;
             [cdvResult setObject:no forKey:@"error"];
             [cdvResult setObject:yes forKey:@"success"];
+            [cdvResult setObject:no forKey:@"cancelled"];
             [cdvResult setObject:[result.grantedPermissions allObjects] forKey:@"granted"];
             [cdvResult setObject:[result.declinedPermissions allObjects] forKey:@"declined"];
         }
