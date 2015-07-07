@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import android.support.v4.util.SimpleArrayMap;
 
+import java.lang.Override;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -360,7 +361,7 @@ public class CordovaFacebook extends CordovaPlugin {
     }
 
     private void loginWithPermissions(JSONArray args, final CallbackContext callbackContext) {
-        ((CordovaActivity)this.getActivity()).setActivityResultCallback(this);
+        this.cordova.setActivityResultCallback(this);
 
         JSONArray jsonPermissions = args.optJSONArray(0);
 
