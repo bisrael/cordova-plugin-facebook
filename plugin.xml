@@ -71,11 +71,21 @@
 
         <config-file target="AndroidManifest.xml" parent="application">
             <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+            <activity android:name="com.facebook.FacebookActivity"
+                      android:configChanges=
+                              "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+                      android:theme="@android:style/Theme.Translucent.NoTitleBar"
+                      android:label="@string/app_name" />
+            <provider android:authorities="com.facebook.app.FacebookContentProvider$FACEBOOK_APP_ID"
+                      android:name="com.facebook.FacebookContentProvider"
+                      android:exported="true" />
         </config-file>
 
         <source-file src="src/android/com/blakeisrael/cordova/CordovaFacebook.java" target-dir="src/com/blakeisrael/cordova/" />
 
-        <source-file src="src/android/facebook.jar" target-dir="libs/" />
-        <source-file src="src/android/bolts-1.2.0.jar" target-dir="libs/" />
+        <!--<source-file src="src/android/bolts-1.2.0.jar" target-dir="libs/" />-->
+        <!--<framework src="src/android/facebook-release.aar" custom="true" />-->
+        <framework src="com.facebook.android:facebook-android-sdk:4.3.+" />
+        <!--<source-file src="src/android/facebook-sdk.jar" target-dir="libs/" />-->
     </platform>
 </plugin>
