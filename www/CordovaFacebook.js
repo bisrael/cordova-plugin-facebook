@@ -65,7 +65,7 @@ var CordovaFacebook = (function() {
             var onSuccess = options.onSuccess || defaultCallback;
             var onFailure = options.onFailure || defaultCallback;
 
-            exec(onSuccess, onFailure, SERVICE, action);
+            exec(onSuccess, onFailure, SERVICE, action, []);
         };
     }
 

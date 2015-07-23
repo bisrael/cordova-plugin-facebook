@@ -7,7 +7,7 @@
 
 - (void) pluginInitialize
 {
-    id FacebookAppId = [self.commandDelegate.settings objectForKey:[@"FacebookAppId" lowercaseString]];
+    id FacebookAppId = [self.commandDelegate.settings objectForKey:[@"FacebookAppID" lowercaseString]];
     
     if (FacebookAppId != nil) {
         self.fbAppId = (NSString*) FacebookAppId;
