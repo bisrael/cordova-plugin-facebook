@@ -1,0 +1,23 @@
+{
+  "name": "cordova-plugin-facebook",
+  "version": "0.1.0",
+  "description": "A Facebook plugin for Cordova 5.0.0+",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bisrael/CordovaFacebook.git"
+  },
+  "keywords": [
+    "cordova",
+    "facebook"
+  ],
+  "author": "Blake Israel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bisrael/CordovaFacebook/issues"
+  },
+  "homepage": "https://github.com/bisrael/CordovaFacebook#readme"
+}
