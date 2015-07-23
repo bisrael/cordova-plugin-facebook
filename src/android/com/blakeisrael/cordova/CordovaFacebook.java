@@ -2,11 +2,13 @@ package com.blakeisrael.cordova;
 
 import android.app.Activity;
 
+import android.util.Log;
+
 import android.content.Intent;
 
 import android.os.Bundle;
 
-import android.support.v4.util.SimpleArrayMap;
+import android.support.v4.util.ArrayMap;
 
 import java.lang.Override;
 import java.math.BigDecimal;
@@ -16,32 +18,23 @@ import java.util.Currency;
 import java.util.Map;
 import java.lang.IllegalArgumentException;
 
-import org.apache.cordova.CordovaActivity;
-import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CordovaInterface;
-import org.apache.cordova.CordovaWebView;
-import org.apache.cordova.CallbackContext;
+import org.apache.cordova.*;
 
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
+import com.facebook.*;
+import com.facebook.appevents.*;
+import com.facebook.login.*;
 
-import com.facebook.appevents.AppEventsLogger;
+import org.json.*;
 
-import com.facebook.login.LoginBehavior;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class CordovaFacebook extends CordovaPlugin {
+    public static final String TAG = "CordovaFacebook";
+
     private String appId;
     private AppEventsLogger fbLogger;
     private CallbackManager callbackManager;
+
+    private CallbackContext storedContext;
 
     public static final String TYPE_STRING = "string";
     public static final String TYPE_INTEGER = "integer";
@@ -57,6 +50,7 @@ public class CordovaFacebook extends CordovaPlugin {
     public static final String PURCHASE = "purchase";
     public static final String LOGIN_READ = "login";
     public static final String LOGOUT = "logout";
+    public static final String GRAPH_REQUEST = "graphRequest";
 
     public static final String ERR_NO_EVENT_NAME = "Expected the first argument to be a string for the event name.";
     public static final String ERR_NO_EVENT_ARGS = "Expected non-zero number of arguments for `event`.";
@@ -66,14 +60,6 @@ public class CordovaFacebook extends CordovaPlugin {
 
     private final Activity getActivity() {
         return this.cordova.getActivity();
-    }
-
-    private abstract class CordovaFacebookCallback<RESULT> implements FacebookCallback<RESULT> {
-        protected CallbackContext callbackContext;
-
-        public void setCallbackContext(final CallbackContext newContext) {
-            this.callbackContext = newContext;
-        }
     }
 
     @Override
@@ -98,15 +84,21 @@ public class CordovaFacebook extends CordovaPlugin {
         LoginManager m = LoginManager.getInstance();
         m.setLoginBehavior(LoginBehavior.SUPPRESS_SSO);
 
-
-        m.registerCallback(callbackManager, new CordovaFacebookCallback<LoginResult>() {
+        m.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                if(this.callbackContext == null) {
+                Log.d(TAG, "Facebook Callback onSuccess");
+
+                CallbackContext c = CordovaFacebook.this.storedContext;
+
+                if(c == null) {
+                    Log.d(TAG, "No storedContext, exiting without calling a callback");
                     return;
                 }
 
-                SimpleArrayMap<String, Object> mappedResult = new SimpleArrayMap<String, Object>(6);
+                CordovaFacebook.this.storedContext = null;
+
+                Map<String, Object> mappedResult = new ArrayMap<String, Object>(6);
                 mappedResult.put("error", 0);
                 mappedResult.put("success", 1);
                 mappedResult.put("cancelled", 0);
@@ -120,16 +112,23 @@ public class CordovaFacebook extends CordovaPlugin {
                     mappedResult.put("userID", a.getUserId());
                 }
 
-                this.callbackContext.success(new JSONObject((Map)mappedResult));
+                Log.d(TAG, "Result: " + mappedResult.toString());
+                c.success(new JSONObject(mappedResult));
             }
 
             @Override
             public void onCancel() {
-                if(this.callbackContext == null) {
+                Log.d(TAG, "Facebook Callback onCancel");
+
+                CallbackContext c = CordovaFacebook.this.storedContext;
+
+                if(c == null) {
+                    Log.d(TAG, "No storedContext, exiting without calling a callback");
                     return;
                 }
 
-                SimpleArrayMap<String, Object> mappedResult = new SimpleArrayMap<String, Object>(5);
+                CordovaFacebook.this.storedContext = null;
+                Map<String, Object> mappedResult = new ArrayMap<String, Object>(5);
                 mappedResult.put("error", 1);
                 mappedResult.put("success", 0);
                 mappedResult.put("cancelled", 1);
@@ -141,16 +140,24 @@ public class CordovaFacebook extends CordovaPlugin {
                     mappedResult.put("userID", a.getUserId());
                 }
 
-                this.callbackContext.error(new JSONObject((Map)mappedResult));
+                Log.d(TAG, "Result: " + mappedResult.toString());
+                c.error(new JSONObject(mappedResult));
             }
 
             @Override
             public void onError(FacebookException exception) {
-                if(this.callbackContext == null) {
+                Log.d(TAG, "Facebook Callback onError");
+
+                CallbackContext c = CordovaFacebook.this.storedContext;
+
+                if(c == null) {
+                    Log.d(TAG, "No storedContext, exiting without calling a callback");
                     return;
                 }
 
-                SimpleArrayMap<String, Object> mappedResult = new SimpleArrayMap<String, Object>(7);
+                CordovaFacebook.this.storedContext = null;
+
+                Map<String, Object> mappedResult = new ArrayMap<String, Object>(7);
                 mappedResult.put("error", 1);
                 mappedResult.put("success", 0);
                 mappedResult.put("cancelled", 0);
@@ -164,7 +171,8 @@ public class CordovaFacebook extends CordovaPlugin {
                     mappedResult.put("userID", a.getUserId());
                 }
 
-                this.callbackContext.error(new JSONObject((Map)mappedResult));
+                Log.d(TAG, "Result: " + mappedResult.toString());
+                c.error(new JSONObject(mappedResult));
             }
         });
     }
@@ -259,6 +267,49 @@ public class CordovaFacebook extends CordovaPlugin {
                 } catch(JSONException e) {
                     continue;
                 }
+            }
+        }
+
+        return b;
+    }
+
+    public static Bundle jsonObjectAsBundle(JSONObject obj) {
+        int length = obj == null ? 0 : obj.length();
+
+        if(0 == length) {
+            return null;
+        }
+
+        Bundle b = new Bundle(length);
+        JSONArray names = obj.names();
+
+        for(int i = 0; i < length; ++i) {
+            final String name = names.optString(i);
+
+            if (name == null) {
+                continue;
+            }
+
+            final Object value = obj.opt(name);
+
+            if (value == null) {
+                continue;
+            }
+
+            final Class type = value.getClass();
+
+            if (type.equals(String.class)) {
+                b.putString(name, (String) value);
+            } else if (type.equals(Integer.class)) {
+                b.putInt(name, (Integer) value);
+            } else if (type.equals(Long.class)) {
+                b.putLong(name, (Long) value);
+            } else if (type.equals(Double.class)) {
+                if (!Double.isNaN((Double) value)) {
+                    b.putDouble(name, (Double) value);
+                }
+            } else if (type.equals(Boolean.class)) {
+                b.putBoolean(name, (Boolean) value);
             }
         }
 
@@ -379,6 +430,7 @@ public class CordovaFacebook extends CordovaPlugin {
             }
         }
 
+        this.storedContext = callbackContext;
         LoginManager.getInstance().logInWithReadPermissions(this.getActivity(), permissions);
     }
 
@@ -386,6 +438,68 @@ public class CordovaFacebook extends CordovaPlugin {
         LoginManager.getInstance().logOut();
 
         callbackContext.success();
+    }
+
+    private void graphRequest(JSONArray args, final CallbackContext callbackContext) {
+
+        final int argc = args.length();
+
+        if(argc < 1) {
+            callbackContext.error("No Arguments Supplied");
+            return;
+        }
+
+        final String requestPath = args.optString(0);
+
+        if(requestPath == null) {
+            callbackContext.error("No Path Supplied");
+            return;
+        }
+
+        final AccessToken accessToken = AccessToken.getCurrentAccessToken();
+
+        if(accessToken == null) {
+            callbackContext.error("No User is Logged In");
+            return;
+        }
+
+        final GraphRequest gr = new GraphRequest(accessToken, requestPath);
+
+        final JSONObject params = args.optJSONObject(1);
+
+        if(params != null) {
+            gr.setParameters(CordovaFacebook.jsonObjectAsBundle(params));
+        }
+
+        final GraphResponse response = gr.executeAndWait();
+
+        if(response == null) {
+            callbackContext.error("GraphResponse was null");
+            return;
+        }
+
+        final FacebookRequestError error = response.getError();
+
+        if(error != null) {
+            callbackContext.error(error.getErrorMessage());
+            return;
+        }
+
+        final JSONObject responseObject = response.getJSONObject();
+
+        if(responseObject != null) {
+            callbackContext.success(responseObject);
+            return;
+        }
+
+        final JSONArray responseArray = response.getJSONArray();
+
+        if(responseArray != null) {
+            callbackContext.success(responseArray);
+            return;
+        }
+
+        callbackContext.error("Response was blank");
     }
 
     @Override
@@ -406,6 +520,10 @@ public class CordovaFacebook extends CordovaPlugin {
             return true;
         } else if(LOGOUT.equals(action)) {
             this.logout(callbackContext);
+
+            return true;
+        } else if(GRAPH_REQUEST.equals(action)){
+            this.graphRequest(args, callbackContext);
 
             return true;
         } else {

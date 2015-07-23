@@ -16,7 +16,6 @@
 
     <!-- ios -->
     <platform name="ios">
-
         <config-file target="config.xml" parent="/*">
             <feature name="CordovaFacebook">
                 <param name="ios-package" value="CDVFacebook"/>
@@ -35,7 +34,7 @@
             </array>
         </config-file>
 
-        <config-file target="*-Info.plist" parent="FacebookAppId">
+        <config-file target="*-Info.plist" parent="FacebookAppID">
             <string>$FACEBOOK_APP_ID</string>
         </config-file>
 
@@ -83,9 +82,6 @@
 
         <source-file src="src/android/com/blakeisrael/cordova/CordovaFacebook.java" target-dir="src/com/blakeisrael/cordova/" />
 
-        <!--<source-file src="src/android/bolts-1.2.0.jar" target-dir="libs/" />-->
-        <!--<framework src="src/android/facebook-release.aar" custom="true" />-->
         <framework src="com.facebook.android:facebook-android-sdk:4.3.+" />
-        <!--<source-file src="src/android/facebook-sdk.jar" target-dir="libs/" />-->
     </platform>
 </plugin>
