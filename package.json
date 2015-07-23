@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-facebook",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Facebook plugin for Cordova 5.0.0+",
   "main": "index.js",
   "scripts": {
