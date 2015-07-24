@@ -33,6 +33,7 @@ var CordovaFacebook = (function() {
     }
 
     exports.logEvent = function logEventImpl(options) {
+        options = options || {};
         var onSuccess = options.onSuccess || defaultCallback;
         var onFailure = options.onFailure || defaultCallback;
 
@@ -40,6 +41,7 @@ var CordovaFacebook = (function() {
     };
 
     exports.logPurchase = function logPurchaseImpl(options) {
+        options = options || {};
         var onSuccess = options.onSuccess || defaultCallback;
         var onFailure = options.onFailure || defaultCallback;
 
@@ -47,6 +49,7 @@ var CordovaFacebook = (function() {
     };
 
     exports.login = function(options) {
+        options = options || {};
         var onSuccess = options.onSuccess || defaultCallback;
         var onFailure = options.onFailure || defaultCallback;
 
@@ -54,6 +57,7 @@ var CordovaFacebook = (function() {
     };
 
     exports.graphRequest = function(options) {
+        options = options || {};
         var onSuccess = options.onSuccess || defaultCallback;
         var onFailure = options.onFailure || defaultCallback;
 
@@ -62,8 +66,8 @@ var CordovaFacebook = (function() {
 
     function basicCall(action) {
         return function(options) {
-            var onSuccess = options.onSuccess || defaultCallback;
-            var onFailure = options.onFailure || defaultCallback;
+            var onSuccess = (options && options.onSuccess) || defaultCallback;
+            var onFailure = (options && options.onFailure) || defaultCallback;
 
             exec(onSuccess, onFailure, SERVICE, action, []);
         };
