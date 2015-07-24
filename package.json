@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bisrael/CordovaFacebook.git"
+    "url": "git+https://github.com/bisrael/cordova-plugin-facebook.git"
   },
   "keywords": [
     "cordova",
@@ -17,7 +17,7 @@
   "author": "Blake Israel",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bisrael/CordovaFacebook/issues"
+    "url": "https://github.com/bisrael/cordova-plugin-facebook/issues"
   },
-  "homepage": "https://github.com/bisrael/CordovaFacebook#readme"
+  "homepage": "https://github.com/bisrael/cordova-plugin-facebook#readme"
 }
