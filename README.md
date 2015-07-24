@@ -30,14 +30,14 @@ Both `onSuccess` and `onFailure` callbacks will generally be passed one argument
 
 The `CordovaFacebook.login` method accepts a `permissions` field in addition to the standard callbacks.
 
-- `permissions` _(optional)_ - an array of Facebook permissions you are asking for from the user. `"public_profile"` is always requested. See (Facebook's Docs)[https://developers.facebook.com/docs/facebook-login/permissions/v2.4] for more information.
+- `permissions` _(optional)_ - an array of Facebook permissions you are asking for from the user. `"public_profile"` is always requested. See [Facebook's Docs](https://developers.facebook.com/docs/facebook-login/permissions/v2.4) for more information.
 
 Both `onSuccess` and `onFailure` receive a single `result` object, with the following properties:
 
 - `result.error` - `1` if there was an error, `0` otherwise.
 - `result.success` - `1` if the user accepted the login request, `0` otherwise.
 - `result.cancelled` - `1` if the user cancelled the login request, `0` otherwise.
-- `result.errorCode` _(if `error` is 1)_ - Facebook's error code for what went wrong. `0` is a network failure, `304` is a login mismatch (call `logout` before trying again). See (Facebook List of Error Codes)[https://developers.facebook.com/docs/graph-api/using-graph-api/v2.4#errors].
+- `result.errorCode` _(if `error` is 1)_ - Facebook's error code for what went wrong. `0` is a network failure, `304` is a login mismatch (call `logout` before trying again). See [Facebook List of Error Codes](https://developers.facebook.com/docs/graph-api/using-graph-api/v2.4#errors).
 - `result.errorLocalized` _(if `error` is 1)_ - Facebook's localized description of what went wrong, in the current locale.
 - `result.granted` _(if `success` is 1)_ - An array of the permissions the user approved.
 - `result.declined` _(if `success` is 1)_ - An array of the permissions the user declined.
