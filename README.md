@@ -11,7 +11,7 @@
 ## Get the Plugin:
 
 ```shell
-$> cordova plugin add cordova-plugin-facebook --variable FACEBOOK_DISPLAY_NAME=<Your App Name> --variable FACEBOOK_APP_ID=<Your App's ID> [--save]
+$> cordova plugin add cordova-plugin-facebook --variable FACEBOOK_DISPLAY_NAME=<Your App Name> --variable FACEBOOK_APP_ID=<Your App ID> [--save]
 ```
 
 ## Using the Plugin:
@@ -82,7 +82,8 @@ CordovaFacebook.logout({
    }
 });
 
-// Unless you need to wait for the native sdk to do its thing, you dont even really need to use a callback:
+// Unless you need to wait for the native sdk to do its thing,
+// you dont even really need to use a callback:
 CordovaFacebook.logout();
 ```
 
