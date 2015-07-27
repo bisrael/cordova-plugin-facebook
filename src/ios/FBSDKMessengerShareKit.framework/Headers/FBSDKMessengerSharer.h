@@ -1,4 +1,20 @@
-//  Copyright 2004-present Facebook. All Rights Reserved.
+// Copyright (c) 2014-present, Facebook, Inc. All rights reserved.
+//
+// You are hereby granted a non-exclusive, worldwide, royalty-free license to use,
+// copy, modify, and distribute this software in source code or binary form for use
+// in connection with the web services and APIs provided by Facebook.
+//
+// As with any software that integrates with the Facebook platform, your use of
+// this software is subject to the Facebook Developer Principles and Policies
+// [http://developers.facebook.com/policy/]. This copyright notice shall be
+// included in all copies or substantial portions of the software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -56,7 +72,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKMessengerPlatformCapability)
  @abstract
  Call this method to open Messenger
  */
-+ (void)openMessenger;
++ (void)openMessenger NS_EXTENSION_UNAVAILABLE_IOS("");
 
 /*!
  @abstract
@@ -74,7 +90,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKMessengerPlatformCapability)
  */
 + (void)shareImage:(UIImage *)image
       withMetadata:(NSString *)metadata
-       withContext:(FBSDKMessengerContext *)context __attribute__ ((deprecated("use use shareImage:withOptions: instead")));
+       withContext:(FBSDKMessengerContext *)context __attribute__ ((deprecated("use use shareImage:withOptions: instead"))) NS_EXTENSION_UNAVAILABLE_IOS("");
 
 /*!
  @abstract
@@ -85,7 +101,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKMessengerPlatformCapability)
 
  @discussion If there is not an installed version of Messenger on the device that supports the share, an alert will be presented to the user to go to the App Store to install the latest version of Messenger
  */
-+ (void)shareImage:(UIImage *)image withOptions:(FBSDKMessengerShareOptions *)options;
++ (void)shareImage:(UIImage *)image withOptions:(FBSDKMessengerShareOptions *)options NS_EXTENSION_UNAVAILABLE_IOS("");
 
 /*!
  @abstract
@@ -103,7 +119,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKMessengerPlatformCapability)
  */
 + (void)shareAnimatedGIF:(NSData *)animatedGIFData
             withMetadata:(NSString *)metadata
-             withContext:(FBSDKMessengerContext *)context __attribute__ ((deprecated("use use shareAnimatedGIF:withOptions: instead")));
+             withContext:(FBSDKMessengerContext *)context __attribute__ ((deprecated("use use shareAnimatedGIF:withOptions: instead"))) NS_EXTENSION_UNAVAILABLE_IOS("");
 
 /*!
  @abstract
@@ -114,7 +130,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKMessengerPlatformCapability)
 
  @discussion If there is not an installed version of Messenger on the device that supports the share, an alert will be presented to the user to go to the App Store to install the latest version of Messenger
  */
-+ (void)shareAnimatedGIF:(NSData *)animatedGIFData withOptions:(FBSDKMessengerShareOptions *)options;
++ (void)shareAnimatedGIF:(NSData *)animatedGIFData withOptions:(FBSDKMessengerShareOptions *)options NS_EXTENSION_UNAVAILABLE_IOS("");
 
 /*!
  @abstract
@@ -132,7 +148,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKMessengerPlatformCapability)
  */
 + (void)shareAnimatedWebP:(NSData *)animatedWebPData
              withMetadata:(NSString *)metadata
-              withContext:(FBSDKMessengerContext *)context __attribute__ ((deprecated("use use shareAnimatedWebP:withOptions: instead")));
+              withContext:(FBSDKMessengerContext *)context __attribute__ ((deprecated("use use shareAnimatedWebP:withOptions: instead"))) NS_EXTENSION_UNAVAILABLE_IOS("");
 
 /*!
  @abstract
@@ -143,7 +159,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKMessengerPlatformCapability)
 
  @discussion If there is not an installed version of Messenger on the device that supports the share, an alert will be presented to the user to go to the App Store to install the latest version of Messenger
  */
-+ (void)shareAnimatedWebP:(NSData *)animatedWebPData withOptions:(FBSDKMessengerShareOptions *)options;
++ (void)shareAnimatedWebP:(NSData *)animatedWebPData withOptions:(FBSDKMessengerShareOptions *)options NS_EXTENSION_UNAVAILABLE_IOS("");
 
 /*!
  @abstract
@@ -166,7 +182,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKMessengerPlatformCapability)
  */
 + (void)shareVideo:(NSData *)videoData
       withMetadata:(NSString *)metadata
-       withContext:(FBSDKMessengerContext *)context __attribute__ ((deprecated("use use shareVideo:withOptions: instead")));
+       withContext:(FBSDKMessengerContext *)context __attribute__ ((deprecated("use use shareVideo:withOptions: instead"))) NS_EXTENSION_UNAVAILABLE_IOS("");
 
 /*!
  @abstract
@@ -182,7 +198,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKMessengerPlatformCapability)
 
  @discussion If there is not an installed version of Messenger on the device that supports the share, an alert will be presented to the user to go to the App Store to install the latest version of Messenger
  */
-+ (void)shareVideo:(NSData *)videoData withOptions:(FBSDKMessengerShareOptions *)options;
++ (void)shareVideo:(NSData *)videoData withOptions:(FBSDKMessengerShareOptions *)options NS_EXTENSION_UNAVAILABLE_IOS("");
 
 /*!
  @abstract
@@ -203,7 +219,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKMessengerPlatformCapability)
 */
 + (void)shareAudio:(NSData *)audioData
       withMetadata:(NSString *)metadata
-       withContext:(FBSDKMessengerContext *)context __attribute__ ((deprecated("use use shareAudio:withOptions: instead")));
+       withContext:(FBSDKMessengerContext *)context __attribute__ ((deprecated("use use shareAudio:withOptions: instead"))) NS_EXTENSION_UNAVAILABLE_IOS("");
 
 /*!
  @abstract
@@ -219,6 +235,6 @@ typedef NS_OPTIONS(NSUInteger, FBSDKMessengerPlatformCapability)
 
  @discussion If there is not an installed version of Messenger on the device that supports the share, an alert will be presented to the user to go to the App Store to install the latest version of Messenger
  */
-+ (void)shareAudio:(NSData *)audioData withOptions:(FBSDKMessengerShareOptions *)options;
++ (void)shareAudio:(NSData *)audioData withOptions:(FBSDKMessengerShareOptions *)options NS_EXTENSION_UNAVAILABLE_IOS("");
 
 @end
