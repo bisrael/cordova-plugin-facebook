@@ -82,7 +82,7 @@ public class CordovaFacebook extends CordovaPlugin {
         this.callbackManager = CallbackManager.Factory.create();
 
         LoginManager m = LoginManager.getInstance();
-        m.setLoginBehavior(LoginBehavior.SUPPRESS_SSO);
+        //m.setLoginBehavior(LoginBehavior.SUPPRESS_SSO);
 
         m.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
