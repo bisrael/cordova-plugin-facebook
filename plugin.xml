@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="cordova-plugin-facebook" version="0.2.0">
+        id="cordova-plugin-facebook" version="0.2.1">
     <name>CordovaFacebook</name>
     <description>Cordova Facebook SDK Plugin</description>
     <author>Blake Israel</author>
