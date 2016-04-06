@@ -267,7 +267,7 @@
         params = [args objectAtIndex: 1];
     }
 
-    FBSDKGraphRequest *req = [[FBSDKGraphRequest alloc] initWithGraphPath:path parameters:nil];
+    FBSDKGraphRequest *req = [[FBSDKGraphRequest alloc] initWithGraphPath:path parameters:params];
 
     [req startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
         if (!error) {
