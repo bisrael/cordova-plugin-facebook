@@ -23,6 +23,8 @@
 #import "FBNativeAd.h"
 #import "FBNativeAdsManager.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class FBNativeAdTableViewAdProvider
 
@@ -35,7 +37,7 @@ FB_CLASS_EXPORT
  @property
  @abstract Passes delegate methods from FBNativeAd. Separate delegate calls will be made for each native ad contained.
  */
-@property (nonatomic, weak) id<FBNativeAdDelegate> delegate;
+@property (nonatomic, weak, nullable) id<FBNativeAdDelegate> delegate;
 
 /*!
  @method
@@ -91,3 +93,5 @@ FB_CLASS_EXPORT
 - (NSUInteger)adjustCount:(NSUInteger)count forStride:(NSUInteger)stride;
 
 @end
+
+NS_ASSUME_NONNULL_END

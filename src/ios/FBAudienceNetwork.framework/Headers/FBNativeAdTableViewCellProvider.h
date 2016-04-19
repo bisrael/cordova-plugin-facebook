@@ -25,6 +25,8 @@
 #import "FBNativeAdView.h"
 #import "FBNativeAdsManager.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class FBNativeAdTableViewCellProvider
 
@@ -76,3 +78,5 @@ FB_CLASS_EXPORT
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
+
+NS_ASSUME_NONNULL_END

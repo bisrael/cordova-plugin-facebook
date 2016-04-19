@@ -20,6 +20,8 @@
 
 #import "FBAdDefines.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol FBMediaViewDelegate;
 @class FBNativeAd;
 
@@ -36,7 +38,7 @@ FB_CLASS_EXPORT
  @property
  @abstract the delegate
  */
-@property (nonatomic, weak) id<FBMediaViewDelegate> delegate;
+@property (nonatomic, weak, nullable) id<FBMediaViewDelegate> delegate;
 
 /*!
  @method
@@ -46,7 +48,17 @@ FB_CLASS_EXPORT
  */
 - (instancetype)initWithNativeAd:(FBNativeAd *)nativeAd;
 
-@property (nonatomic, strong) FBNativeAd *nativeAd;
+/*!
+ @property
+ @abstract the native ad, can be set again to reuse this view.
+ */
+@property (nonatomic, strong, nonnull) FBNativeAd *nativeAd;
+
+/*!
+ @property
+ @abstract Enables or disables autoplay for some types of media. Defaults to YES.
+ */
+@property (nonatomic, assign, getter=isAutoplayEnabled) BOOL autoplayEnabled;
 
 @end
 
@@ -71,3 +83,5 @@ FB_CLASS_EXPORT
 - (void)mediaViewDidLoad:(FBMediaView *)mediaView;
 
 @end
+
+NS_ASSUME_NONNULL_END

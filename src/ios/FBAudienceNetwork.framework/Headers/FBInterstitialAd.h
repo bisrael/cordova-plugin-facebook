@@ -22,6 +22,8 @@
 #import "FBAdDefines.h"
 #import "FBAdView.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol FBInterstitialAdDelegate;
 
 /*!
@@ -37,12 +39,12 @@ FB_CLASS_EXPORT
  @property
  @abstract Typed access to the id of the ad placement.
  */
-@property (nonatomic, copy, readonly) NSString *placementID;
+@property (nonatomic, copy, readonly, nonnull) NSString *placementID;
 /*!
  @property
  @abstract the delegate
  */
-@property (nonatomic, weak) id<FBInterstitialAdDelegate> delegate;
+@property (nonatomic, weak, nullable) id<FBInterstitialAdDelegate> delegate;
 
 /*!
  @method
@@ -166,3 +168,5 @@ FB_CLASS_EXPORT
 - (void)interstitialAdWillLogImpression:(FBInterstitialAd *)interstitialAd;
 
 @end
+
+NS_ASSUME_NONNULL_END

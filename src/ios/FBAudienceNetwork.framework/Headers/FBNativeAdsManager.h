@@ -19,6 +19,8 @@
 #import "FBAdDefines.h"
 #import "FBNativeAd.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @protocol FBNativeAdsManagerDelegate
 
@@ -57,7 +59,7 @@ FB_CLASS_EXPORT
 
  @abstract The delegate
  */
-@property (nonatomic, weak) id <FBNativeAdsManagerDelegate> delegate;
+@property (nonatomic, weak, nullable) id <FBNativeAdsManagerDelegate> delegate;
 
 /*!
  @property
@@ -111,8 +113,10 @@ FB_CLASS_EXPORT
 
  @abstract Retrieve the next native ad to be used from the batch. It is highly recommended that the caller wait until immediately before rendering the ad content to call this method to ensure the best ad for the given context is used. If more than uniqueNativeAdCount ads are requested cloned ads will be returned. Periodically the native ads manager will refresh and new ads will be returned.
 
-  @return A FBNativeAd which is loaded and ready to be used.
+ @return A FBNativeAd which is loaded and ready to be used.
  */
-- (FBNativeAd *)nextNativeAd;
+- (nullable FBNativeAd *)nextNativeAd;
 
 @end
+
+NS_ASSUME_NONNULL_END
