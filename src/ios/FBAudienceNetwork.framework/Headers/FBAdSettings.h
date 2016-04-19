@@ -20,7 +20,9 @@
 
 #import "FBAdDefines.h"
 
-FB_EXPORT NSString *const FBAudienceNetworkErrorDomain;
+NS_ASSUME_NONNULL_BEGIN
+
+FB_EXPORT NSString * const __nonnull FBAudienceNetworkErrorDomain;
 
 typedef NS_ENUM(NSInteger, FBAdLogLevel) {
     FBAdLogLevelNone,
@@ -62,7 +64,7 @@ FB_CLASS_EXPORT
 
  @param devicesHash The array of the device id to use test mode, can be obtained from debug log
  */
-+ (void)addTestDevices:(NSArray *)devicesHash;
++ (void)addTestDevices:(FB_NSArrayOf(NSString *)*)devicesHash;
 
 /*!
  @method
@@ -85,6 +87,16 @@ FB_CLASS_EXPORT
  Please review the FTC's guidance and consult with your own legal counsel.
  */
 + (void)setIsChildDirected:(BOOL)isChildDirected;
+
+/*!
+ @method
+ 
+ @abstract
+ If an ad provided service is mediating Audience Network in their sdk, it is required to set the name of the mediation service
+ 
+ @param service Representing the name of the mediation that is mediation Audience Network
+ */
++ (void)setMediationService:(NSString *)service;
 
 /*!
  @method
@@ -114,3 +126,5 @@ FB_CLASS_EXPORT
 + (void)setLogLevel:(FBAdLogLevel)level;
 
 @end
+
+NS_ASSUME_NONNULL_END

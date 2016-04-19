@@ -28,13 +28,14 @@
 /*!
  @abstract The description of the link.
  @discussion If not specified, this field is automatically populated by information scraped from the contentURL,
- typically the title of the page.
+ typically the title of the page.  This value may be discarded for specially handled links (ex: iTunes URLs).
  @return The description of the link
  */
 @property (nonatomic, copy) NSString *contentDescription;
 
 /*!
  @abstract The title to display for this link.
+ @discussion This value may be discarded for specially handled links (ex: iTunes URLs).
  @return The link title
  */
 @property (nonatomic, copy) NSString *contentTitle;
@@ -44,6 +45,13 @@
  @return The network URL of an image
  */
 @property (nonatomic, copy) NSURL *imageURL;
+
+/*!
+ @abstract Some quote text of the link.
+ @discussion If specified, the quote text will render with custom styling on top of the link.
+ @return The quote text of a link
+ */
+@property (nonatomic, copy) NSString *quote;
 
 /*!
  @abstract Compares the receiver to another link content.

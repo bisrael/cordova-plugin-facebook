@@ -51,7 +51,7 @@ typedef NS_ENUM(NSUInteger, FBSDKLoginButtonTooltipBehavior)
   Like `FBSDKLoginManager`, you should make sure your app delegate is connected to
   `FBSDKApplicationDelegate` in order for the button's delegate to receive messages.
 
- `FBSDKLoginButton` has a fixed height, but you may change the width. `initWithFrame:CGRectZero`
+ `FBSDKLoginButton` has a fixed height of @c 30 pixels, but you may change the width. `initWithFrame:CGRectZero`
  will size the button to its minimum frame.
 */
 @interface FBSDKLoginButton : FBSDKButton
@@ -100,6 +100,7 @@ typedef NS_ENUM(NSUInteger, FBSDKLoginButtonTooltipBehavior)
  */
 @protocol FBSDKLoginButtonDelegate <NSObject>
 
+@required
 /*!
  @abstract Sent to the delegate when the button was used to login.
  @param loginButton the sender
@@ -115,5 +116,13 @@ didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result
  @param loginButton The button that was clicked.
 */
 - (void)loginButtonDidLogOut:(FBSDKLoginButton *)loginButton;
+
+@optional
+/*!
+ @abstract Sent to the delegate when the button is about to login.
+ @param loginButton the sender
+ @return YES if the login should be allowed to proceed, NO otherwise
+ */
+- (BOOL) loginButtonWillLogin:(FBSDKLoginButton *)loginButton;
 
 @end

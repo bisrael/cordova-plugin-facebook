@@ -21,6 +21,8 @@
 
 #import "FBAdDefines.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @typedef FBAdSize
 
@@ -51,7 +53,8 @@ FB_EXPORT FBAdSize const kFBAdSizeHeight90Banner;
 /*!
  @abstract Represents the interstitial ad size.
  */
-FB_EXPORT FBAdSize const kFBAdSizeInterstital;
+FB_EXPORT FBAdSize const kFBAdSizeInterstitial;
+FB_EXPORT FB_DEPRECATED FBAdSize const kFBAdSizeInterstital;
 
 /*!
  @abstract Represents the flexible rectangle ad size, where width depends on
@@ -59,9 +62,4 @@ FB_EXPORT FBAdSize const kFBAdSizeInterstital;
  */
 FB_EXPORT FBAdSize const kFBAdSizeHeight250Rectangle;
 
-FB_CLASS_EXPORT
-@interface FBAdCustomSize : NSObject
-
-+ (FBAdSize)customSize:(CGSize)size;
-
-@end
+NS_ASSUME_NONNULL_END
