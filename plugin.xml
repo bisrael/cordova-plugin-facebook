@@ -36,7 +36,7 @@
 
         <config-file target="*-Info.plist" parent="LSApplicationQueriesSchemes">
             <array>
-                <string>fbauth</string>
+                <string>fbauth2</string>
             </array>
         </config-file>
 
