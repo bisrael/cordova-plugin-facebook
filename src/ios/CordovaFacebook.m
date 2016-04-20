@@ -183,7 +183,7 @@
     if (permissions == nil) {
         permissions = @[];
     };
-    [self.fbLogin logInWithReadPermissions:permissions handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+    [self.fbLogin logInWithReadPermissions:permissions fromViewController:self.viewController handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
         CDVCommandStatus status;
         FBSDKAccessToken* accessToken = [FBSDKAccessToken currentAccessToken];
 
@@ -267,7 +267,7 @@
         params = [args objectAtIndex: 1];
     }
 
-    FBSDKGraphRequest *req = [[FBSDKGraphRequest alloc] initWithGraphPath:path parameters:nil];
+    FBSDKGraphRequest *req = [[FBSDKGraphRequest alloc] initWithGraphPath:path parameters:params];
 
     [req startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
         if (!error) {

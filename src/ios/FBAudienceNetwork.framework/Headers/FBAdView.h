@@ -22,6 +22,8 @@
 #import "FBAdDefines.h"
 #import "FBAdSize.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol FBAdViewDelegate;
 
 /*!
@@ -82,12 +84,12 @@ FB_CLASS_EXPORT
  @property
  @abstract Typed access to the app's root view controller.
  */
-@property (nonatomic, weak, readonly) UIViewController *rootViewController;
+@property (nonatomic, weak, readonly, nullable) UIViewController *rootViewController;
 /*!
  @property
  @abstract the delegate
  */
-@property (nonatomic, weak) id<FBAdViewDelegate> delegate;
+@property (nonatomic, weak, nullable) id<FBAdViewDelegate> delegate;
 
 @end
 
@@ -165,3 +167,5 @@ FB_CLASS_EXPORT
 - (UIViewController *)viewControllerForPresentingModalView;
 
 @end
+
+NS_ASSUME_NONNULL_END

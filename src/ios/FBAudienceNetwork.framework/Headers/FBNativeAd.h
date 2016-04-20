@@ -20,6 +20,8 @@
 
 #import "FBAdDefines.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol FBNativeAdDelegate;
 @class FBAdImage;
 
@@ -27,7 +29,8 @@ typedef NS_ENUM(NSInteger, FBNativeAdsCachePolicy) {
     FBNativeAdsCachePolicyNone = 0,
     FBNativeAdsCachePolicyIcon = 0x1,
     FBNativeAdsCachePolicyCoverImage = 0x2,
-    FBNativeAdsCachePolicyAll = FBNativeAdsCachePolicyCoverImage | FBNativeAdsCachePolicyIcon,
+    FBNativeAdsCachePolicyVideo = 0x3,
+    FBNativeAdsCachePolicyAll = FBNativeAdsCachePolicyCoverImage | FBNativeAdsCachePolicyIcon | FBNativeAdsCachePolicyVideo,
 };
 
 /*!
@@ -44,47 +47,47 @@ FB_CLASS_EXPORT
  @property
  @abstract Typed access to the id of the ad placement.
  */
-@property (nonatomic, copy, readonly) NSString *placementID;
+@property (nonatomic, copy, readonly, nonnull) NSString *placementID;
 /*!
  @property
  @abstract Typed access to the ad star rating. See `FBAdStarRating` for details.
  */
-@property (nonatomic, assign, readonly) struct FBAdStarRating starRating;
+@property (nonatomic, assign, readonly) struct FBAdStarRating starRating FB_DEPRECATED;
 /*!
  @property
  @abstract Typed access to the ad title.
  */
-@property (nonatomic, copy, readonly) NSString *title;
+@property (nonatomic, copy, readonly, nullable) NSString *title;
 /*!
  @property
  @abstract Typed access to the ad subtitle.
  */
-@property (nonatomic, copy, readonly) NSString *subtitle;
+@property (nonatomic, copy, readonly, nullable) NSString *subtitle;
 /*!
  @property
  @abstract Typed access to the ad social context, for example "Over half a million users".
  */
-@property (nonatomic, copy, readonly) NSString *socialContext;
+@property (nonatomic, copy, readonly, nullable) NSString *socialContext;
 /*!
  @property
  @abstract Typed access to the call to action phrase of the ad, for example "Install Now".
  */
-@property (nonatomic, copy, readonly) NSString *callToAction;
+@property (nonatomic, copy, readonly, nullable) NSString *callToAction;
 /*!
  @property
  @abstract Typed access to the ad icon. See `FBAdImage` for details.
  */
-@property (nonatomic, strong, readonly) FBAdImage *icon;
+@property (nonatomic, strong, readonly, nullable) FBAdImage *icon;
 /*!
  @property
  @abstract Typed access to the ad cover image creative. See `FBAdImage` for details.
  */
-@property (nonatomic, strong, readonly) FBAdImage *coverImage;
+@property (nonatomic, strong, readonly, nullable) FBAdImage *coverImage;
 /*!
  @property
  @abstract Typed access to the body text, usually a longer description of the ad.
  */
-@property (nonatomic, copy, readonly) NSString *body;
+@property (nonatomic, copy, readonly, nullable) NSString *body;
 /*!
  @property
 
@@ -95,7 +98,7 @@ FB_CLASS_EXPORT
  @property
  @abstract the delegate
  */
-@property (nonatomic, weak) id<FBNativeAdDelegate> delegate;
+@property (nonatomic, weak, nullable) id<FBNativeAdDelegate> delegate;
 
 /*!
  @method
@@ -137,7 +140,7 @@ FB_CLASS_EXPORT
  */
 - (void)registerViewForInteraction:(UIView *)view
                 withViewController:(UIViewController *)viewController
-                withClickableViews:(NSArray *)clickableViews;
+                withClickableViews:(FB_NSArrayOf(UIView *)*)clickableViews;
 
 /*!
  @method
@@ -242,8 +245,8 @@ FB_CLASS_EXPORT
  Represents the Facebook ad star rating, which contains the rating value and rating scale.
  */
 FB_EXPORT struct FBAdStarRating {
-  CGFloat value;
-  NSInteger scale;
+    CGFloat value;
+    NSInteger scale;
 } FBAdStarRating;
 
 /*!
@@ -258,7 +261,7 @@ FB_CLASS_EXPORT
  @property
  @abstract Typed access to the image url.
  */
-@property (nonatomic, copy, readonly) NSURL *url;
+@property (nonatomic, copy, readonly, nonnull) NSURL *url;
 /*!
  @property
  @abstract Typed access to the image width.
@@ -280,7 +283,9 @@ FB_CLASS_EXPORT
  @param width the image width.
  @param height the image height.
  */
-- (instancetype)initWithURL:(NSURL *)url width:(NSInteger)width height:(NSInteger)height NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithURL:(NSURL *)url
+                      width:(NSInteger)width
+                     height:(NSInteger)height NS_DESIGNATED_INITIALIZER;
 
 /*!
  @method
@@ -290,7 +295,7 @@ FB_CLASS_EXPORT
 
  @param block Block to handle the loaded image.
  */
-- (void)loadImageAsyncWithBlock:(void (^)(UIImage * image))block;
+- (void)loadImageAsyncWithBlock:(nullable void (^)(UIImage * __nullable image))block;
 
 @end
 
@@ -300,26 +305,26 @@ FB_CLASS_EXPORT
  @abstract
  Helper view that draws a star rating based off a native ad.
  */
-FB_CLASS_EXPORT
+FB_CLASS_EXPORT FB_DEPRECATED
 @interface FBAdStarRatingView : UIView
 
 /*!
  @property
  @abstract The current rating from an FBNativeAd. When set, updates the view.
  */
-@property (nonatomic) struct FBAdStarRating rating;
+@property (nonatomic) struct FBAdStarRating rating FB_DEPRECATED;
 
 /*!
  @property
  @abstract The color drawn for filled-in stars. Defaults to yellow.
  */
-@property (strong, nonatomic) UIColor *primaryColor;
+@property (strong, nonatomic, nonnull) UIColor *primaryColor FB_DEPRECATED;
 
 /*!
  @property
  @abstract The color drawn for empty stars. Defaults to gray.
  */
-@property (strong, nonatomic) UIColor *secondaryColor;
+@property (strong, nonatomic, nonnull) UIColor *secondaryColor FB_DEPRECATED;
 
 /*!
  @method
@@ -330,6 +335,8 @@ FB_CLASS_EXPORT
  @param frame Frame of this view.
  @param starRating Star rating from a native ad.
  */
-- (instancetype)initWithFrame:(CGRect)frame withStarRating:(struct FBAdStarRating)starRating NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFrame:(CGRect)frame withStarRating:(struct FBAdStarRating)starRating NS_DESIGNATED_INITIALIZER FB_DEPRECATED;
 
 @end
+
+NS_ASSUME_NONNULL_END
