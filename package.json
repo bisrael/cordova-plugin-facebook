@@ -1,5 +1,5 @@
 {
-  "name": "cordova-plugin-facebook",
+  "name": "cordova-plugin-facebook-meteor",
   "version": "0.2.2",
   "description": "A Facebook plugin for Cordova 5.0.0+",
   "main": "index.js",
@@ -8,16 +8,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bisrael/cordova-plugin-facebook.git"
+    "url": "git+https://github.com/lpender/cordova-plugin-facebook.git"
   },
   "keywords": [
     "cordova",
     "facebook"
   ],
-  "author": "Blake Israel",
+  "author": "Lee Pender",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bisrael/cordova-plugin-facebook/issues"
+    "url": "https://github.com/lpender/cordova-plugin-facebook/issues"
   },
-  "homepage": "https://github.com/bisrael/cordova-plugin-facebook#readme"
+  "homepage": "https://github.com/lpender/cordova-plugin-facebook#readme"
 }
