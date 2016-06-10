@@ -1,6 +1,6 @@
 # CordovaFacebook
 
-### Facebook Plugin for Cordova 5.0+
+### Facebook Plugin for Cordova 5.0+ and Meteor
 
 ## Supports:
 
@@ -11,8 +11,14 @@
 ## Get the Plugin:
 
 ```shell
-$> cordova plugin add cordova-plugin-facebook --variable FACEBOOK_DISPLAY_NAME=<Your App Name> --variable FACEBOOK_APP_ID=<Your App ID> [--save]
+$> export METEOR_APP_NAME="App"
+$> export FACEBOOK_APP_ID="12345689"
+$> export FACEBOOK_APP_NAME="app"
+$> cordova plugin add cordova-plugin-facebook
 ```
+
+`METEOR_APP_NAME` corresponds to the folder name in
+`.meteor/local/cordova-build/platforms/ios/`.
 
 ## Using the Plugin:
 
@@ -86,5 +92,3 @@ CordovaFacebook.logout({
 // you dont even really need to use a callback:
 CordovaFacebook.logout();
 ```
-
-

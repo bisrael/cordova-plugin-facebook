@@ -11,8 +11,11 @@
         <clobbers target="CordovaFacebook" />
     </js-module>
 
-    <preference name="FACEBOOK_APP_ID" />
-    <preference name="FACEBOOK_DISPLAY_NAME" />
+    <!-- <preference name="FACEBOOK_APP_ID" /> -->
+    <!-- <preference name="FACEBOOK_DISPLAY_NAME" /> -->
+
+    <!-- Prepare -->
+    <hook type="after_prepare" src="scripts/insert_variables.js" />
 
     <!-- ios -->
     <platform name="ios">
@@ -28,7 +31,7 @@
                 <dict>
                     <key>CFBundleURLSchemes</key>
                     <array>
-                        <string>fb$FACEBOOK_APP_ID</string>
+                        <string>fb{{APP_ID}}</string>
                     </array>
                 </dict>
             </array>
@@ -41,11 +44,11 @@
         </config-file>
 
         <config-file target="*-Info.plist" parent="FacebookAppID">
-            <string>$FACEBOOK_APP_ID</string>
+            <string>{{APP_ID}}</string>
         </config-file>
 
         <config-file target="*-Info.plist" parent="FacebookDisplayName">
-            <string>$FACEBOOK_DISPLAY_NAME</string>
+            <string>{{APP_NAME}}</string>
         </config-file>
 
         <!-- Facebook Framework Files -->
@@ -71,7 +74,7 @@
         </config-file>
 
         <config-file target="res/values/strings.xml" parent="/*">
-            <string name="facebook_app_id">$FACEBOOK_APP_ID</string>
+            <string name="facebook_app_id">{{APP_ID}}</string>
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="application">
@@ -81,7 +84,7 @@
                               "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
                       android:theme="@android:style/Theme.Translucent.NoTitleBar"
                       android:label="@string/app_name" />
-            <provider android:authorities="com.facebook.app.FacebookContentProvider$FACEBOOK_APP_ID"
+            <provider android:authorities="com.facebook.app.FacebookContentProvider{{APP_ID}}"
                       android:name="com.facebook.FacebookContentProvider"
                       android:exported="true" />
         </config-file>
