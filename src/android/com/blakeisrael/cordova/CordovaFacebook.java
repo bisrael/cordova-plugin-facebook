@@ -51,12 +51,14 @@ public class CordovaFacebook extends CordovaPlugin {
     public static final String LOGIN_READ = "login";
     public static final String LOGOUT = "logout";
     public static final String GRAPH_REQUEST = "graphRequest";
+    public static final String GET_ACCESS_TOKEN = "getAccessToken";
 
     public static final String ERR_NO_EVENT_NAME = "Expected the first argument to be a string for the event name.";
     public static final String ERR_NO_EVENT_ARGS = "Expected non-zero number of arguments for `event`.";
     public static final String ERR_NO_PURCH_ARGS = "Expected two or three arguments for `purchase`.";
     public static final String ERR_NO_PURCH_AMNT = "Expected first argument to be a string for the purchase amount.";
     public static final String ERR_NO_PURCH_CURR = "Expected second argument to be a string for the purchase currency.";
+    public static final String ERR_NO_ACCESS_TOKEN = "Cannot get current access token.";
 
     private final Activity getActivity() {
         return this.cordova.getActivity();
@@ -502,6 +504,16 @@ public class CordovaFacebook extends CordovaPlugin {
         callbackContext.error("Response was blank");
     }
 
+    private void getAccessToken(final CallbackContext callbackContext) {
+        AccessToken a = AccessToken.getCurrentAccessToken();
+
+        if(a != null) {
+          callbackContext.success(a.getToken());
+        } else {
+          callbackContext.error(ERR_NO_ACCESS_TOKEN);
+        }
+    }
+
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         if (EVENT.equals(action)) {
@@ -522,9 +534,12 @@ public class CordovaFacebook extends CordovaPlugin {
             this.logout(callbackContext);
 
             return true;
-        } else if(GRAPH_REQUEST.equals(action)){
+        } else if(GRAPH_REQUEST.equals(action)) {
             this.graphRequest(args, callbackContext);
 
+            return true;
+        } else if(GET_ACCESS_TOKEN.equals(action)) {
+            this.getAccessToken(callbackContext);
             return true;
         } else {
             return false;

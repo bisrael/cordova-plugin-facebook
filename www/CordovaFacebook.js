@@ -6,6 +6,7 @@ var CordovaFacebook = (function() {
     var LOGOUT = "logout";
     var PROFILE = "profile";
     var GRAPH_REQUEST = "graphRequest";
+    var GET_ACCESS_TOKEN = "getAccessToken";
 
     var eventsSent = 0;
 
@@ -75,6 +76,7 @@ var CordovaFacebook = (function() {
 
     exports.logout = basicCall(LOGOUT);
     exports.profile = basicCall(PROFILE);
+    exports.getAccessToken = basicCall(GET_ACCESS_TOKEN);
 
     return exports;
 })();

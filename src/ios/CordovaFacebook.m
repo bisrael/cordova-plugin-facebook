@@ -278,6 +278,15 @@
     }];
 }
 
+- (void) getAccessToken: (CDVInvokedUrlCommand*) command {
+    FBSDKAccessToken* accessToken = [FBSDKAccessToken currentAccessToken];
+    if (accessToken) {
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[accessToken tokenString]] callbackId:command.callbackId];
+    } else {
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR] callbackId:command.callbackId];
+    }
+}
+
 - (void) onAppDidFinishLaunching: (NSNotification*) notification
 {
     self.app = (UIApplication*)[notification object];

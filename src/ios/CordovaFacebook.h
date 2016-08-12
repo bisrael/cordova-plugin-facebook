@@ -20,6 +20,7 @@
 - (void) logout: (CDVInvokedUrlCommand*) command;
 - (void) profile: (CDVInvokedUrlCommand*) command;
 - (void) graphRequest: (CDVInvokedUrlCommand *) command;
+- (void) getAccessToken: (CDVInvokedUrlCommand*) command;
 - (void) onAppDidBecomeActive: (NSNotification*) notification;
 - (void) onAppDidFinishLaunching: (NSNotification*) notification;
 - (void) onHandleOpenURL: (NSNotification*) notification;
