@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         id="cordova-plugin-facebook" version="0.2.2">
     <name>CordovaFacebook</name>
     <description>Cordova Facebook SDK Plugin</description>
@@ -36,7 +38,10 @@
 
         <config-file target="*-Info.plist" parent="LSApplicationQueriesSchemes">
             <array>
+                <string>fbapi</string>
+                <string>fb-messenger-api</string>
                 <string>fbauth2</string>
+                <string>fbshareextension</string>
             </array>
         </config-file>
 
@@ -91,3 +96,4 @@
         <framework src="com.facebook.android:facebook-android-sdk:4.+" />
     </platform>
 </plugin>
+
